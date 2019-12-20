@@ -1,0 +1,12 @@
+<?php
+
+define("MYSQL_SERVER", ""); // Сервер бд
+define("MYSQL_DB", ""); // Имя бд
+define("MYSQL_USER", ""); // Пользователь
+define("MYSQL_PASSWORD", ""); // Пароль
+
+define("BOT_TOKEN", ""); // Токен бота
+define("BOT_MODER_CHAT", ); // ID чата модераторов
+define("BOT_CHANNEL", ""); // Канал с репортами, например: eventsbotchannel
+
+?>
