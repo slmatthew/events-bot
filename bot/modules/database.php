@@ -107,6 +107,13 @@ class ReportsTable extends Database {
 		return true;
 	}
 
+	public function setCompleted(int $id, int $completed) {
+		$r = mysqli_query($this->link, sprintf("UPDATE reports SET completed = %d WHERE id = %d", $completed, $id));
+		if(!$r) throw new DatabaseException('RTSC: '.mysqli_error($this->link));
+
+		return true;
+	}
+
 	public function getById(int $id) {
 		$r = mysqli_query($this->link, sprintf("SELECT * FROM reports WHERE id = %d", $id));
 		if(!$r) throw new DatabaseException("RTGBI: ".mysqli_error($this->link));
@@ -150,6 +157,10 @@ class ReportsTable extends Database {
 
 	public function getCount(int $user_id) {
 		return mysqli_fetch_assoc(mysqli_query($this->link, sprintf("SELECT COUNT(*) as count FROM reports WHERE user_id = %d", $user_id)))['count'];
+	}
+
+	public function delete(int $id) {
+		return mysqli_query($this->link, sprintf("DELETE FROM reports WHERE id = %d", $id));
 	}
 }
 

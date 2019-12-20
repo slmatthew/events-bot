@@ -51,7 +51,8 @@ $tg->startLp(function($data) use($tg) {
 								$tg->send($chat_id, implode("\n", [
 									"*Хорошо.* Вы решили отправить новый репорт.\n",
 									"Пожалуйста, напишите название мероприятия, на котором было замечено нарушение. Если есть возможность, то можете указать улицу и номер дома.\n",
-									"_Например:_ митинг на Тверской, угол дома 1 возле поворота"
+									"_Например:_ митинг на Тверской, угол дома 1 возле поворота\n",
+									"_Если Вы передумали создавать репорт, отправьте команду /cancel_"
 								]), ['parse_mode' => 'Markdown', 'reply_markup' => json_encode(['remove_keyboard' => true])]);
 							} else $tg->send($chat_id, "Упс! Кажется, у нас проблемы. Попробуйте позже.");
 						} else {
@@ -62,6 +63,15 @@ $tg->startLp(function($data) use($tg) {
 
 						$user_report = $rt->getLastByUserId($from_id);
 						if(empty($user_report)) return $tg->send($from_id, "У вас нет активного репорта");
+
+						if($text_l == '/cancel') {
+							$ut->setStep($from_id, 0);
+							$rt->delete($user_report['id']);
+
+							$tg->send($chat_id, "Вы отменили создание репорта");
+
+							return;
+						}
 
 						switch((int)$user['step']) {
 							case 1: // челик ОТПРАВИТ мероприятие И БУДЕТ ЭТОТ ОБРАБОТЧИК
